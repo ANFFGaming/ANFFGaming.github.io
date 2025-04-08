@@ -1,7 +1,293 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youth Funding Opportunities | Government Programs</title>
+    <meta name="google-adsense-account" content="ca-pub-5611367578185697">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5611367578185697" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px 0;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .program-title {
+            font-size: 1.3rem;
+            margin: 0 0 10px 0;
+            color: var(--primary-color);
+        }
+        
+        .program-description {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .program-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .apply-btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .apply-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .category-tag {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-tag:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages!</p>
+    <header>
+        <div class="container">
+            <h1>Youth Funding Opportunities</h1>
+            <p class="subtitle">Discover government programs and financial support available for young people</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for programs (e.g., education, housing, grants...)">
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="categories">
+            <span class="category-tag">All Programs</span>
+            <span class="category-tag">Education</span>
+            <span class="category-tag">Housing</span>
+            <span class="category-tag">Employment</span>
+            <span class="category-tag">Grants</span>
+            <span class="category-tag">Scholarships</span>
+        </div>
+        
+        <div class="programs-grid">
+            <!-- Example Program Card 1 -->
+            <div class="program-card">
+                <div class="card-header">
+                    <h3 class="program-title">Youth Pass Program</h3>
+                </div>
+                <div class="card-body">
+                    <p class="program-description">Discounted public transportation passes for eligible youth to access education and employment opportunities.</p>
+                    <div class="program-details">
+                        <span>Age: 16-24</span>
+                        <span>Funding: $50/month</span>
+                    </div>
+                    <a href="#" class="apply-btn">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Example Program Card 2 -->
+            <div class="program-card">
+                <div class="card-header">
+                    <h3 class="program-title">Education Grant</h3>
+                </div>
+                <div class="card-body">
+                    <p class="program-description">Financial assistance for low-income youth pursuing post-secondary education or vocational training.</p>
+                    <div class="program-details">
+                        <span>Age: 18-29</span>
+                        <span>Funding: Up to $5,000</span>
+                    </div>
+                    <a href="#" class="apply-btn">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Example Program Card 3 -->
+            <div class="program-card">
+                <div class="card-header">
+                    <h3 class="program-title">First Job Initiative</h3>
+                </div>
+                <div class="card-body">
+                    <p class="program-description">Wage subsidies for employers who hire youth with limited work experience.</p>
+                    <div class="program-details">
+                        <span>Age: 15-25</span>
+                        <span>Funding: 50% of wages</span>
+                    </div>
+                    <a href="#" class="apply-btn">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Example Program Card 4 -->
+            <div class="program-card">
+                <div class="card-header">
+                    <h3 class="program-title">Youth Housing Support</h3>
+                </div>
+                <div class="card-body">
+                    <p class="program-description">Rental assistance and housing support services for at-risk youth.</p>
+                    <div class="program-details">
+                        <span>Age: 16-24</span>
+                        <span>Funding: Varies</span>
+                    </div>
+                    <a href="#" class="apply-btn">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Example Program Card 5 -->
+            <div class="program-card">
+                <div class="card-header">
+                    <h3 class="program-title">Entrepreneurship Fund</h3>
+                </div>
+                <div class="card-body">
+                    <p class="program-description">Seed funding and mentorship for young entrepreneurs starting their own businesses.</p>
+                    <div class="program-details">
+                        <span>Age: 18-30</span>
+                        <span>Funding: Up to $10,000</span>
+                    </div>
+                    <a href="#" class="apply-btn">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Example Program Card 6 -->
+            <div class="program-card">
+                <div class="card-header">
+                    <h3 class="program-title">Mental Health Support</h3>
+                </div>
+                <div class="card-body">
+                    <p class="program-description">Fully covered counseling and mental health services for youth in need.</p>
+                    <div class="program-details">
+                        <span>Age: 12-25</span>
+                        <span>Funding: 100% covered</span>
+                    </div>
+                    <a href="#" class="apply-btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Youth Funding Opportunities | A comprehensive guide to government support programs</p>
+            <p>Last updated: June 2023 | Contact: info@youthfunding.gov</p>
+        </div>
+    </footer>
 </body>
 </html>
