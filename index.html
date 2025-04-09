@@ -1,61 +1,116 @@
-<script src="js/loader.js" defer></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youth Funding Programs | Government Grants for Young People</title>
+    <meta name="description" content="Discover government funding programs available for youth. Find grants, scholarships, and support for education, entrepreneurship, and more.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>YouthFund</h1>
+                <p>Empowering the next generation</p>
+            </div>
+            <nav class="nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-list">
+                    <li class="nav-item active"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="programs.html">Programs</a></li>
+                    <li class="nav-item"><a href="tools.html">Tools</a></li>
+                    <li class="nav-item"><a href="#" class="btn">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<!-- Hero Section -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Youth Funding Programs</h1>
-    <p>Discover government initiatives to support young entrepreneurs, students, and innovators</p>
-    <a href="#programs" class="btn">Explore Programs</a>
-  </div>
-</section>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Discover Funding Opportunities for Youth</h2>
+                    <p>Find government programs, grants, and resources to support your education, career, and entrepreneurial dreams.</p>
+                    <div class="hero-buttons">
+                        <a href="programs.html" class="btn btn-primary">Explore Programs</a>
+                        <a href="#" class="btn btn-secondary">Take Eligibility Quiz</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://via.placeholder.com/600x400" alt="Young people discussing funding options" class="responsive-img">
+                </div>
+            </div>
+        </section>
 
-<!-- Main Content -->
-<section id="programs">
-  <h2>Available Funding Programs</h2>
-  <p class="subtitle">Browse through our curated list of government-supported initiatives for youth</p>
-  
-  <div class="program-cards">
-    <!-- Program 1 -->
-    <div class="card">
-      <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-      <div class="card-content">
-        <span class="tag">Education</span>
-        <span class="tag">Ages 18-25</span>
-        <h3>Youth Education Grant</h3>
-        <p>Financial support for young students pursuing higher education in STEM fields.</p>
-        <a href="#" class="btn">Learn More</a>
-      </div>
-    </div>
-    
-    <!-- Program 2 -->
-    <div class="card">
-      <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-      <div class="card-content">
-        <span class="tag">Business</span>
-        <span class="tag">Startups</span>
-        <h3>Young Entrepreneurs Fund</h3>
-        <p>Seed funding and mentorship for innovative business ideas from young founders.</p>
-        <a href="#" class="btn">Learn More</a>
-      </div>
-    </div>
-    
-    <!-- Program 3 -->
-    <div class="card">
-      <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-      <div class="card-content">
-        <span class="tag">Community</span>
-        <span class="tag">Ages 15-30</span>
-        <h3>Youth Community Initiative</h3>
-        <p>Funding for projects that benefit local communities and create youth employment.</p>
-        <a href="#" class="btn">Learn More</a>
-      </div>
-    </div>
-  </div>
-</section>
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">How We Can Help</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <h3>Education Grants</h3>
+                        <p>Find funding for tuition, books, and living expenses while you study.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-briefcase feature-icon"></i>
+                        <h3>Career Support</h3>
+                        <p>Programs to help you gain skills and transition into the workforce.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lightbulb feature-icon"></i>
+                        <h3>Startup Funding</h3>
+                        <p>Grants and loans for young entrepreneurs with innovative ideas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Call to Action -->
-<section class="cta">
-  <h2>Need Help Applying?</h2>
-  <p>Our youth advisors are available to guide you through the application process</p>
-  <a href="#" class="btn">Contact Support</a>
-</section>
+        <section class="newsletter">
+            <div class="container">
+                <h2>Stay Updated</h2>
+                <p>Subscribe to our newsletter for the latest funding opportunities and deadlines.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>YouthFund</h3>
+                    <p>Helping young people access government funding since 2023.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="tools.html">Tools</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@youthfund.example</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 YouthFund. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
