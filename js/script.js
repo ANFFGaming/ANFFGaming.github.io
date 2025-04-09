@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
-    if (document.querySelector('.programs-page')) {
+    if (document.querySelector('.programs-grid')) {
         console.log('Programs page detected - loading programs...');
         loadPrograms();
     } else {
