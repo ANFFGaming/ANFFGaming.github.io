@@ -670,3 +670,79 @@ footer {
     padding: 30px;
     grid-column: 1 / -1;
 }
+
+/* Program Page Specific Styles */
+.program-page {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+.program-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-color);
+}
+
+.program-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.program-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 1rem 0;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.program-content h2 {
+    margin: 2rem 0 1rem;
+    color: var(--primary-color);
+}
+
+.highlight-box {
+    background-color: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.highlight-box h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.application-section {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 3rem 0;
+}
+
+.application-section ol {
+    margin: 1rem 0 2rem;
+    padding-left: 1.5rem;
+}
+
+.application-section li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .program-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .program-page {
+        padding: 0 15px;
+    }
+}

@@ -6,23 +6,104 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
 });
 
-function loadPrograms() {
-    fetch('programs.json')
-        .then(response => response.json())
-        .then(data => {
-            // Store programs globally for filtering
-            window.allPrograms = data.programs;
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector('.programs-grid')) {
+        // This is the program listing page
+        loadPrograms();
+        setupEventListeners();
+    }
+    
+    if (document.querySelector('.program-page')) {
+        // This is an individual program page
+        setupProgramPage();
+    }
+});
+
+// Load all program data for the listing page
+async function loadPrograms() {
+    try {
+        // In a real implementation, you might fetch this from an API
+        // or generate it during build time for static sites
+        const programLinks = [
+            { url: 'programs/youth-education-grant.html', category: 'education' },
+            { url: 'programs/entrepreneur-fund.html', category: 'business' },
+            { url: 'programs/youth-housing-support.html', category: 'housing' }
+        ];
+        
+        const programs = [];
+        
+        // Fetch each program's metadata
+        for (const link of programLinks) {
+            const response = await fetch(link.url);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const programData = JSON.parse(doc.getElementById('program-data').textContent);
             
-            // Display all programs initially
-            displayPrograms(window.allPrograms);
-            
-            // Initialize category filters
-            initializeCategories(window.allPrograms);
-        })
-        .catch(error => {
-            console.error('Error loading programs:', error);
-            displayError();
-        });
+            programs.push({
+                ...programData,
+                url: link.url,
+                categories: [link.category, ...(programData.categories || [])]
+            });
+        }
+        
+        window.allPrograms = programs;
+        displayPrograms(programs);
+        initializeCategories(programs);
+    } catch (error) {
+        console.error('Error loading programs:', error);
+        displayError();
+    }
+}
+
+// For individual program pages
+function setupProgramPage() {
+    const programData = JSON.parse(document.getElementById('program-data').textContent);
+    
+    // Update the page title
+    document.title = `${programData.title} | Youth Funding`;
+    
+    // You could use the data to dynamically update parts of the page
+    // For example, set the application link
+    const applyBtn = document.querySelector('.application-section .cta-btn');
+    if (applyBtn && programData.applicationLink) {
+        applyBtn.href = programData.applicationLink;
+    }
+    
+    // Add structured data for SEO
+    addStructuredData(programData);
+}
+
+function addStructuredData(programData) {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": programData.title,
+        "description": programData.shortDescription,
+        "serviceType": "Financial Assistance",
+        "category": programData.categories.join(", "),
+        "provider": {
+            "@type": "GovernmentOrganization",
+            "name": "Youth Funding Programs"
+        },
+        "audience": {
+            "@type": "PeopleAudience",
+            "suggestedMinAge": programData.ageRange.split('-')[0],
+            "suggestedMaxAge": programData.ageRange.split('-')[1]
+        },
+        "availableChannel": {
+            "@type": "ServiceChannel",
+            "availableLanguage": "English",
+            "processingTime": "P30D",
+            "serviceUrl": window.location.href
+        }
+    };
+    
+    script.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(script);
 }
 
 function displayPrograms(programs) {
