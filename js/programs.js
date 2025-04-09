@@ -74,7 +74,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             ).join('');
             
             programCard.innerHTML = `
-                <div class="program-image" style="background-image: url('${program.image}')"></div>
+                <div class="program-image-container">
+                    <img src="${program.image}" 
+                        alt="${program.title}" 
+                        class="program-image"
+                        onerror="this.src='images/default-program.jpg'">
+                </div>
                 <div class="program-content">
                     <h3 class="program-title">${program.title}</h3>
                     <p class="program-description">${program.description}</p>
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         ${categoriesHTML}
                     </div>
                     <div class="program-funding">${fundingText}</div>
-                    <a href="programs/${program.id}.html" class="program-link">Δείτε περισσότερα</a>
+                    <a href="programmata/${program.id}.html" class="program-link">Δείτε περισσότερα</a>
                 </div>
             `;
             
