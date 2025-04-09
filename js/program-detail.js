@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Create back button
     const backButton = document.createElement('a');
-    backButton.href = '../programs.html';
+    backButton.href = '/programmata.html';
     backButton.className = 'back-button';
     backButton.innerHTML = '<i class="fas fa-arrow-left"></i> Πίσω στα Προγράμματα';
     container.appendChild(backButton);
