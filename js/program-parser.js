@@ -4,10 +4,7 @@ export async function fetchAllPrograms() {
         // Fetch the list of program files (in a real app, this would be an API call)
         // For static sites, we'll assume a known list of programs
         const programFiles = [
-            'youth-pass.html',
-            'startup-fund.html',
-            'education-grant.html'
-            // Add other program files here
+            'youth-pass.html'
         ];
 
         const programs = [];
