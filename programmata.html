@@ -1,0 +1,56 @@
+<script src="js/loader.js" defer></script>
+<section class="programs-hero">
+    <div class="container">
+        <h1>Προγράμματα Χρηματοδότησης</h1>
+        <p>Βρείτε το κατάλληλο πρόγραμμα για εσάς με βάση την ηλικία σας, τον τομέα σας και τις ανάγκες σας</p>
+    </div>
+</section>
+
+<section class="programs-search">
+    <div class="container">
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" id="program-search" placeholder="Αναζήτηση προγραμμάτων...">
+                <button type="button" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="age-filter">Ηλικία:</label>
+                    <select id="age-filter">
+                        <option value="">Όλες οι ηλικίες</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-30">26-30</option>
+                        <option value="31-35">31-35</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="category-filter">Κατηγορία:</label>
+                    <select id="category-filter">
+                        <option value="">Όλες οι κατηγορίες</option>
+                        <option value="education">Εκπαίδευση</option>
+                        <option value="business">Επιχειρηματικότητα</option>
+                        <option value="employment">Επαγγελματική Στήριξη</option>
+                        <option value="research">Έρευνα</option>
+                        <option value="arts">Τέχνες</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary" id="apply-filters">Εφαρμογή Φίλτρων</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="programs-list">
+    <div class="container">
+        <div class="programs-grid" id="programs-container">
+            <!-- Program cards will be inserted here by JavaScript -->
+        </div>
+        <div class="no-results" id="no-results" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>Δεν βρέθηκαν προγράμματα</h3>
+            <p>Δοκιμάστε να αλλάξετε τα κριτήρια αναζήτησης</p>
+        </div>
+    </div>
+</section>
