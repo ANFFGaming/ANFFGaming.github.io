@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 2. Fetch header and footer simultaneously
     Promise.all([
-        fetch('includes/header.html').then(r => r.text()),
-        fetch('includes/footer.html').then(r => r.text())
+        fetch('/includes/header.html').then(r => r.text()),
+        fetch('/includes/footer.html').then(r => r.text())
     ]).then(([header, footer]) => {
         // 3. Rebuild the document
         document.open();
