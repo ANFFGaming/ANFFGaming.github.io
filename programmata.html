@@ -36,7 +36,20 @@
                         <option value="arts">Τέχνες</option>
                     </select>
                 </div>
+                <div class="filter-group">
+                    <label for="sort-filter">Ταξινόμηση:</label>
+                    <select id="sort-filter">
+                        <option value="default">Προεπιλογή</option>
+                        <option value="title-asc">Τίτλος (Α-Ω)</option>
+                        <option value="title-desc">Τίτλος (Ω-Α)</option>
+                        <option value="age-asc">Ηλικία (αύξουσα)</option>
+                        <option value="age-desc">Ηλικία (φθίνουσα)</option>
+                        <option value="funding-asc">Χρηματοδότηση (αύξουσα)</option>
+                        <option value="funding-desc">Χρηματοδότηση (φθίνουσα)</option>
+                    </select>
+                </div>
                 <button type="button" class="btn btn-primary" id="apply-filters">Εφαρμογή Φίλτρων</button>
+                <button type="button" class="btn btn-secondary" id="reset-filters">Επαναφορά</button>
             </div>
         </div>
     </div>
