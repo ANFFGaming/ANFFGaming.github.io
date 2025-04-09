@@ -1,5 +1,24 @@
 import { fetchAllPrograms } from './program-parser.js';
 
+// Helper function to get category display name (moved to top level)
+function getCategoryName(category) {
+    const categories = {
+        'education': 'Εκπαίδευση',
+        'business': 'Επιχειρηματικότητα',
+        'employment': 'Εργασία',
+        'research': 'Έρευνα',
+        'arts': 'Τέχνες',
+        'university': 'Πανεπιστήμιο',
+        'startup': 'Startup',
+        'training': 'Εκπαίδευση',
+        'culture': 'Πολιτισμός',
+        'science': 'Επιστήμη',
+        'technology': 'Τεχνολογία',
+        'innovation': 'Καινοτομία'
+    };
+    return categories[category] || category;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     // Load programs from individual files
     const programs = await fetchAllPrograms();
@@ -100,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         filterPrograms();
     }
 
-    // Display programs in the grid (same as before)
+    // Display programs in the grid
     function displayPrograms(programsToDisplay) {
         programsContainer.innerHTML = '';
         
@@ -165,4 +184,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     applyFiltersBtn.addEventListener('click', filterPrograms);
     resetFiltersBtn.addEventListener('click', resetFilters);
     sortFilter.addEventListener('change', filterPrograms);
+
+    // Add debounce to search input for better performance
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(filterPrograms, 300);
+    });
 });
