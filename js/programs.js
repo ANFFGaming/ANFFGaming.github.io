@@ -134,18 +134,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             const programCard = document.createElement('div');
             programCard.className = 'program-card';
             
-            // Funding text
+            // Funding text with better formatting
             let fundingText;
             if (program.fundFixed) {
-                fundingText = `Χρηματοδότηση: ${program.fundFixed}€`;
+                fundingText = `<span class="funding-amount">${program.fundFixed}€</span>`;
             } else {
-                fundingText = `Χρηματοδότηση: ${program.fundMin}€ - ${program.fundMax}€`;
+                fundingText = `<span class="funding-amount">${program.fundMin}€ - ${program.fundMax}€</span>`;
             }
             
-            // Categories tags - now as clickable anchors
+            // Categories tags - now with better visual hierarchy
             const categoriesHTML = program.categories.map(cat => 
-                `<a href="#" class="category-tag" data-category="${cat}">${getCategoryName(cat)}</a>`
+                `<a href="#" class="category-tag" data-category="${cat}">
+                    <span class="tag-bullet"></span>
+                    ${getCategoryName(cat)}
+                </a>`
             ).join('');
+            
+            // Age range with icon
+            const ageRange = `<span class="highlight-text">${program.ageMin}-${program.ageMax} ετών</span>`;
             
             programCard.innerHTML = `
                 <div class="program-image-container">
@@ -153,27 +159,43 @@ document.addEventListener('DOMContentLoaded', async () => {
                          alt="${program.title}" 
                          class="program-image"
                          onerror="this.onerror=null;this.src='images/programmata/default-program.jpg'">
+                    <div class="program-badge">${program.type || 'Πρόγραμμα'}</div>
                 </div>
                 <div class="program-content">
-                    <h3 class="program-title">${program.title}</h3>
-                    <p class="program-description">${program.description}</p>
+                    <div class="program-header">
+                        <h3 class="program-title">${program.title}</h3>
+                        <div class="program-organization">${program.organization || ''}</div>
+                    </div>
+                    <p class="program-description">${program.shortDescription || program.description}</p>
                     <div class="program-meta">
                         <span class="meta-item">
-                            <i class="fas fa-user"></i>
-                            Ηλικία: ${program.ageMin}-${program.ageMax}
+                            <i class="fas fa-user-graduate"></i>
+                            Ηλικία: ${ageRange}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${program.location || 'Εθνικό'}
                         </span>
                     </div>
-                    <div class="program-categories">
-                        ${categoriesHTML}
+                    <div class="program-footer">
+                        <div class="program-categories">
+                            ${categoriesHTML}
+                        </div>
+                        <div class="program-funding">
+                            <i class="fas fa-euro-sign"></i>
+                            ${fundingText}
+                        </div>
+                        <a href="programmata/${program.id}.html" class="program-link">
+                            Περισσότερες πληροφορίες 
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
                     </div>
-                    <div class="program-funding">${fundingText}</div>
-                    <a href="programmata/${program.id}.html" class="program-link">Δείτε περισσότερα</a>
                 </div>
             `;
             
             programsContainer.appendChild(programCard);
         });
-
+    
         // Add click handlers to all category tags
         document.querySelectorAll('.category-tag').forEach(tag => {
             tag.addEventListener('click', (e) => {
