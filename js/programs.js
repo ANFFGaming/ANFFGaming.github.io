@@ -142,40 +142,40 @@ document.addEventListener('DOMContentLoaded', async () => {
                 fundingText = `Χρηματοδότηση: ${program.fundMin}€ - ${program.fundMax}€`;
             }
             
-            // Categories tags - now as clickable anchors
+            // Categories tags
             const categoriesHTML = program.categories.map(cat => 
-                `<a href="#" class="category-tag" data-category="${cat}">${getCategoryName(cat)}</a>`
+                `<a href="#" class="program-card-category" data-category="${cat}">${getCategoryName(cat)}</a>`
             ).join('');
             
             programCard.innerHTML = `
-                <div class="program-image-container">
+                <div class="program-card-image-container">
                     <img src="${program.image}" 
                          alt="${program.title}" 
-                         class="program-image"
+                         class="program-card-image"
                          onerror="this.onerror=null;this.src='images/programmata/default-program.jpg'">
                 </div>
-                <div class="program-content">
-                    <h3 class="program-title">${program.title}</h3>
-                    <p class="program-description">${program.description}</p>
-                    <div class="program-meta">
-                        <span class="meta-item">
-                            <i class="fas fa-user"></i>
+                <div class="program-card-content">
+                    <h3 class="program-card-title">${program.title}</h3>
+                    <p class="program-card-description">${program.description}</p>
+                    <div class="program-card-meta">
+                        <span class="program-card-meta-item">
+                            <i class="fas fa-user program-card-meta-icon"></i>
                             Ηλικία: ${program.ageMin}-${program.ageMax}
                         </span>
                     </div>
-                    <div class="program-categories">
+                    <div class="program-card-categories">
                         ${categoriesHTML}
                     </div>
-                    <div class="program-funding">${fundingText}</div>
-                    <a href="programmata/${program.id}.html" class="program-link">Δείτε περισσότερα</a>
+                    <div class="program-card-funding">${fundingText}</div>
+                    <a href="programmata/${program.id}.html" class="program-card-link">Δείτε περισσότερα</a>
                 </div>
             `;
             
             programsContainer.appendChild(programCard);
         });
-
+    
         // Add click handlers to all category tags
-        document.querySelectorAll('.category-tag').forEach(tag => {
+        document.querySelectorAll('.program-card-category').forEach(tag => {
             tag.addEventListener('click', (e) => {
                 e.preventDefault();
                 const category = tag.dataset.category;
