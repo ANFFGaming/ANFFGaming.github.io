@@ -579,3 +579,94 @@ footer {
         flex-direction: column;
     }
 }
+
+/* Add these to your existing styles.css */
+
+/* Program Tags */
+.program-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.tag {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+/* Program Dates */
+.program-dates {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dark-color);
+}
+
+.modal-content {
+    margin-top: 20px;
+}
+
+.modal-details {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: var(--light-color);
+    border-radius: 5px;
+}
+
+.modal-details p {
+    margin-bottom: 8px;
+}
+
+/* Error Message */
+.error-message {
+    text-align: center;
+    padding: 30px;
+    grid-column: 1 / -1;
+}
+
+.no-programs {
+    text-align: center;
+    padding: 30px;
+    grid-column: 1 / -1;
+}
