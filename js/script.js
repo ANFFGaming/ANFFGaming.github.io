@@ -45,24 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Newsletter form submission
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const emailInput = this.querySelector('input[type="email"]');
-            const email = emailInput.value.trim();
-            
-            if (email) {
-                // Here you would typically send the data to your server
-                alert('Thank you for subscribing! We will keep you updated on new funding opportunities.');
-                emailInput.value = '';
-            }
-        });
-    }
-
     // Add animation to feature cards when they come into view
-    const featureCards = document.querySelectorAll('.feature-card');
+    const featureCards = document.querySelectorAll('.card');
     const observerOptions = {
         threshold: 0.1
     };
