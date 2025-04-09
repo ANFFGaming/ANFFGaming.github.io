@@ -142,9 +142,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 fundingText = `Χρηματοδότηση: ${program.fundMin}€ - ${program.fundMax}€`;
             }
             
-            // Categories tags
+            // Categories tags - now as clickable anchors
             const categoriesHTML = program.categories.map(cat => 
-                `<span class="category-tag">${getCategoryName(cat)}</span>`
+                `<a href="#" class="category-tag" data-category="${cat}">${getCategoryName(cat)}</a>`
             ).join('');
             
             programCard.innerHTML = `
@@ -172,6 +172,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
             
             programsContainer.appendChild(programCard);
+        });
+
+        // Add click handlers to all category tags
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                e.preventDefault();
+                const category = tag.dataset.category;
+                categoryFilter.value = category;
+                filterPrograms();
+            });
         });
     }
 
