@@ -9,11 +9,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchInput = document.getElementById('program-search');
     const ageFilter = document.getElementById('age-filter');
     const categoryFilter = document.getElementById('category-filter');
+    const sortFilter = document.getElementById('sort-filter');
     const applyFiltersBtn = document.getElementById('apply-filters');
+    const resetFiltersBtn = document.getElementById('reset-filters');
     const noResults = document.getElementById('no-results');
 
-    // Display all programs initially
-    displayPrograms(programs);
+    // Read URL parameters and set initial values
+    function readUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('search')) searchInput.value = params.get('search');
+        if (params.has('age')) ageFilter.value = params.get('age');
+        if (params.has('category')) categoryFilter.value = params.get('category');
+        if (params.has('sort')) sortFilter.value = params.get('sort');
+    }
+
+    // Update URL with current filters
+    function updateUrlParams() {
+        const params = new URLSearchParams();
+        if (searchInput.value) params.set('search', searchInput.value);
+        if (ageFilter.value) params.set('age', ageFilter.value);
+        if (categoryFilter.value) params.set('category', categoryFilter.value);
+        if (sortFilter.value !== 'default') params.set('sort', sortFilter.value);
+        
+        const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
+        window.history.pushState({}, '', newUrl);
+    }
+
+    // Sort programs based on selected option
+    function sortPrograms(programsToSort) {
+        const sortValue = sortFilter.value;
+        
+        return [...programsToSort].sort((a, b) => {
+            switch (sortValue) {
+                case 'title-asc':
+                    return a.title.localeCompare(b.title);
+                case 'title-desc':
+                    return b.title.localeCompare(a.title);
+                case 'age-asc':
+                    return a.ageMin - b.ageMin;
+                case 'age-desc':
+                    return b.ageMin - a.ageMin;
+                case 'funding-asc':
+                    return (a.fundFixed || a.fundMin) - (b.fundFixed || b.fundMin);
+                case 'funding-desc':
+                    return (b.fundFixed || b.fundMax) - (a.fundFixed || a.fundMax);
+                default:
+                    return 0;
+            }
+        });
+    }
 
     // Filter programs based on search and filters
     function filterPrograms() {
@@ -42,10 +86,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             return matchesSearch && matchesAge && matchesCategory;
         });
 
-        displayPrograms(filtered);
+        const sorted = sortPrograms(filtered);
+        displayPrograms(sorted);
+        updateUrlParams();
     }
 
-    // Display programs in the grid
+    // Reset all filters
+    function resetFilters() {
+        searchInput.value = '';
+        ageFilter.value = '';
+        categoryFilter.value = '';
+        sortFilter.value = 'default';
+        filterPrograms();
+    }
+
+    // Display programs in the grid (same as before)
     function displayPrograms(programsToDisplay) {
         programsContainer.innerHTML = '';
         
@@ -101,26 +156,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Helper function to get category display name
-    function getCategoryName(category) {
-        const categories = {
-            'education': 'Εκπαίδευση',
-            'business': 'Επιχειρηματικότητα',
-            'employment': 'Εργασία',
-            'research': 'Έρευνα',
-            'arts': 'Τέχνες',
-            'university': 'Πανεπιστήμιο',
-            'startup': 'Startup',
-            'training': 'Εκπαίδευση',
-            'culture': 'Πολιτισμός',
-            'science': 'Επιστήμη',
-            'technology': 'Τεχνολογία',
-            'innovation': 'Καινοτομία'
-        };
-        return categories[category] || category;
-    }
+    // Initialize
+    readUrlParams();
+    filterPrograms();
 
     // Event listeners
     searchInput.addEventListener('input', filterPrograms);
     applyFiltersBtn.addEventListener('click', filterPrograms);
+    resetFiltersBtn.addEventListener('click', resetFilters);
+    sortFilter.addEventListener('change', filterPrograms);
 });
