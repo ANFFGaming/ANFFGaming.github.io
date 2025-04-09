@@ -1,23 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Get program data from JSON script
     const script = document.getElementById('program-data');
-    if (!script) return;
+    if (!script) {
+        console.error('Program data script not found');
+        return;
+    }
     
-    const program = JSON.parse(script.textContent);
+    let program;
+    try {
+        program = JSON.parse(script.textContent);
+    } catch (e) {
+        console.error('Error parsing program data:', e);
+        return;
+    }
     
     // Create main container
     const main = document.createElement('main');
     main.className = 'program-detail';
+    
+    // Create container
+    const container = document.createElement('div');
+    container.className = 'container';
     
     // Create back button
     const backButton = document.createElement('a');
     backButton.href = '../programs.html';
     backButton.className = 'back-button';
     backButton.innerHTML = '<i class="fas fa-arrow-left"></i> Πίσω στα Προγράμματα';
-    
-    // Create container
-    const container = document.createElement('div');
-    container.className = 'container';
+    container.appendChild(backButton);
     
     // Create article
     const article = document.createElement('article');
@@ -27,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = document.createElement('h1');
     title.textContent = program.title;
     header.appendChild(title);
+    article.appendChild(header);
     
     // Create meta information
     const meta = document.createElement('div');
@@ -35,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Age range
     const age = document.createElement('span');
     age.innerHTML = `<i class="fas fa-user"></i> Ηλικία: ${program.ageMin}-${program.ageMax}`;
+    meta.appendChild(age);
     
     // Funding
     let fundingText;
@@ -45,13 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const funding = document.createElement('span');
     funding.innerHTML = `<i class="fas fa-euro-sign"></i> ${fundingText}`;
+    meta.appendChild(funding);
     
     // Categories
     const categories = document.createElement('span');
     const categoryNames = program.categories.map(cat => getCategoryName(cat)).join(', ');
     categories.innerHTML = `<i class="fas fa-tags"></i> Κατηγορίες: ${categoryNames}`;
+    meta.appendChild(categories);
     
-    meta.append(age, funding, categories);
+    article.appendChild(meta);
     
     // Create program image
     const imageContainer = document.createElement('div');
@@ -64,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this.src = '../images/programmata/default-program.jpg';
     };
     imageContainer.appendChild(image);
+    article.appendChild(imageContainer);
     
     // Create content sections
     const content = document.createElement('div');
@@ -73,12 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
         program.content.sections.forEach(section => {
             const sectionTitle = document.createElement('h2');
             sectionTitle.textContent = section.title;
+            content.appendChild(sectionTitle);
             
             const sectionContent = document.createElement('div');
             sectionContent.className = 'section-content';
             sectionContent.innerHTML = section.content;
-            
-            content.append(sectionTitle, sectionContent);
+            content.appendChild(sectionContent);
         });
     }
     
@@ -92,9 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
         content.appendChild(applyButton);
     }
     
-    // Assemble the article
-    article.append(header, meta, imageContainer, content);
-    container.append(backButton, article);
+    article.appendChild(content);
+    container.appendChild(article);
     main.appendChild(container);
     
     // Add to document
@@ -112,4 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         return categories[category] || category;
     }
+    
+    console.log('Program detail page generated successfully');
 });
