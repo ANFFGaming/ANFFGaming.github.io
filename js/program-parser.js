@@ -21,8 +21,8 @@ export async function fetchAllPrograms() {
             if (script) {
                 const program = JSON.parse(script.textContent);
                 
-                // Set default image if none provided or if image fails to load
-                program.image = await validateImagePath(program.image || 'default-program.jpg');
+                // Construct image path
+                program.image = await getImagePath(program.image || 'default-program.jpg');
                 
                 programs.push(program);
             }
@@ -35,27 +35,24 @@ export async function fetchAllPrograms() {
     }
 }
 
-// Helper function to validate image path
-async function validateImagePath(imagePath) {
-    // Check if it's already a full path
-    if (imagePath.startsWith('http') || imagePath.startsWith('/')) {
-        return imagePath;
+// Helper function to construct proper image path
+async function getImagePath(filename) {
+    // Default image folder path
+    const basePath = 'images/programmata/';
+    
+    // Check if filename already contains path
+    if (filename.includes('/') || filename.startsWith('http')) {
+        return filename;
     }
     
-    // Check for image in programmata images folder
-    const programmataPath = `images/programmata/${imagePath}`;
-    if (await imageExists(programmataPath)) {
-        return programmataPath;
-    }
-    
-    // Check in general images folder
-    const imagesPath = `images/${imagePath}`;
-    if (await imageExists(imagesPath)) {
-        return imagesPath;
+    // Check if image exists in programmata folder
+    const fullPath = basePath + filename;
+    if (await imageExists(fullPath)) {
+        return fullPath;
     }
     
     // Fallback to default image
-    return 'images/default-program.jpg';
+    return basePath + 'default-program.jpg';
 }
 
 // Helper function to check if image exists

@@ -76,9 +76,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             programCard.innerHTML = `
                 <div class="program-image-container">
                     <img src="${program.image}" 
-                        alt="${program.title}" 
-                        class="program-image"
-                        onerror="this.src='images/default-program.jpg'">
+                         alt="${program.title}" 
+                         class="program-image"
+                         onerror="this.onerror=null;this.src='images/programmata/default-program.jpg'">
                 </div>
                 <div class="program-content">
                     <h3 class="program-title">${program.title}</h3>
