@@ -70,7 +70,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const href = this.getAttribute('href');
+            
+            // Skip if href is just "#" or empty
+            if (!href || href === '#') {
+                return;
+            }
+            
+            const target = document.querySelector(href);
             if (target) {
                 const headerHeight = header?.offsetHeight || 75;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
@@ -180,19 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
         copyrightElement.innerHTML = copyrightElement.innerHTML.replace('2025', currentYear);
     }
 
-    // Accessibility improvements
-    const focusableElements = document.querySelectorAll('a, button, input, textarea, select');
-    focusableElements.forEach(element => {
-        element.addEventListener('focus', function() {
-            this.style.outline = '3px solid rgba(99, 102, 241, 0.5)';
-            this.style.outlineOffset = '2px';
-        });
-        
-        element.addEventListener('blur', function() {
-            this.style.outline = 'none';
-        });
-    });
-
     // Performance optimization for scroll events
     let ticking = false;
     
@@ -300,9 +294,19 @@ style.textContent = `
 
     /* Enhanced focus styles for better accessibility */
     *:focus-visible {
-        outline: 3px solid rgba(99, 102, 241, 0.5) !important;
+        outline: 2px solid rgba(99, 102, 241, 0.6) !important;
         outline-offset: 2px !important;
         border-radius: 4px;
+    }
+
+    /* Remove default focus outline for mouse clicks and remove tap highlights */
+    * {
+        -webkit-tap-highlight-color: transparent !important;
+        -webkit-touch-callout: none;
+    }
+    
+    *:focus:not(:focus-visible) {
+        outline: none !important;
     }
 
     /* Mobile menu overlay */
