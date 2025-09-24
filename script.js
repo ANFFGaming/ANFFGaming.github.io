@@ -1,5 +1,8 @@
 // Modern YouthFund Website JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    // Prevent scrolling during loading
+    document.body.classList.add('loading', 'no-scroll');
+    
     // Loading Screen
     const loadingScreen = document.querySelector('.loading-screen');
     
@@ -8,32 +11,54 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingScreen.classList.add('fade-out');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-            }, 500);
-        }, 1000);
+                document.body.classList.remove('loading', 'no-scroll');
+            }, 800);
+        }, 1500); // Show loading screen for 1.5 seconds
     });
 
-    // Header and scroll effects
+    // Smart header scroll animation
     const header = document.querySelector('.header');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
+    let lastScrollY = 0;
+    let ticking = false;
+
+    function updateHeader() {
+        const scrollY = window.scrollY;
+        
+        if (scrollY > 50) {
             header.classList.add('scrolled');
-            if (scrollIndicator) scrollIndicator.classList.add('hidden');
         } else {
             header.classList.remove('scrolled');
-            if (scrollIndicator) scrollIndicator.classList.remove('hidden');
         }
-    });
 
-    // Scroll indicator click
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', function() {
-            document.querySelector('#programs').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
+        // Hide header when scrolling down, show when scrolling up
+        if (scrollY > 200) { // Only start hiding after scrolling past 200px
+            if (scrollY > lastScrollY && scrollY > 300) {
+                // Scrolling down - hide header
+                header.classList.add('hide');
+                header.classList.remove('show');
+            } else if (scrollY < lastScrollY) {
+                // Scrolling up - show header
+                header.classList.remove('hide');
+                header.classList.add('show');
+            }
+        } else {
+            // Near top - always show header
+            header.classList.remove('hide');
+            header.classList.add('show');
+        }
+
+        lastScrollY = scrollY;
+        ticking = false;
     }
+
+    function requestHeaderUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
 
     // Scroll animations
     const observer = new IntersectionObserver(function(entries) {
@@ -57,18 +82,49 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navToggle && navMenu) {
         navToggle.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = navMenu.classList.contains('active');
+            
             navToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
+            
+            // Prevent scrolling when menu is open
+            if (!isActive) {
+                document.body.classList.add('menu-open');
+            } else {
+                document.body.classList.remove('menu-open');
+            }
         });
     }
 
+    // Close mobile menu when clicking on links
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             if (navMenu) navMenu.classList.remove('active');
             if (navToggle) navToggle.classList.remove('active');
             document.body.classList.remove('menu-open');
         });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navMenu && navMenu.classList.contains('active') && 
+            navToggle && !navToggle.contains(e.target) && 
+            !navMenu.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            if (navToggle) navToggle.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
     });
 
     // Smooth scrolling for anchor links
@@ -92,5 +148,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('YouthFund website initialized!');
+    console.log('YouthFund website initialized successfully! 🚀');
 });
