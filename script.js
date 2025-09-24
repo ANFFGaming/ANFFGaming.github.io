@@ -3,73 +3,108 @@ document.addEventListener('DOMContentLoaded', function() {
     // Prevent scrolling during loading
     document.body.classList.add('loading', 'no-scroll');
     
-    // Enhanced Loading Screen with Fund Flow Animation
+    // Transforming Icon Loading Screen
     const loadingScreen = document.querySelector('.loading-screen');
-    const youthFigure = document.querySelector('.youth-figure');
-    const opportunityIcons = document.querySelectorAll('.opportunity-icon');
+    const icons = document.querySelectorAll('.opportunity-icon .icon');
+    const progressDots = document.querySelectorAll('.progress-dot');
+    const loadingSubtitle = document.querySelector('.loading-subtitle');
     
-    // Add light-up effect when icons reach the youth figure
-    if (youthFigure && opportunityIcons.length > 0) {
-        opportunityIcons.forEach((icon, index) => {
-            setTimeout(() => {
-                // Create light-up effect
-                const lightUpEffect = () => {
-                    youthFigure.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.9)';
-                    youthFigure.style.transform = 'translateY(-50%) scale(1.2)';
-                    
-                    setTimeout(() => {
-                        youthFigure.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.3)';
-                        youthFigure.style.transform = 'translateY(-50%) scale(1)';
-                    }, 200);
-                };
-                
-                // Trigger light-up effect when each icon "arrives"
-                setInterval(() => {
-                    setTimeout(lightUpEffect, 3800); // Just before icon reaches destination
-                }, 4000); // Match the icon animation duration
-                
-            }, index * 500); // Stagger the start times
-        });
-    }
+    let currentIconIndex = 0;
+    let animationInterval;
     
-    // Dynamic stat counter animation
-    const statNumbers = document.querySelectorAll('.stat-number');
-    const animateStats = () => {
-        statNumbers.forEach((stat, index) => {
-            const finalValue = stat.textContent;
-            let currentValue = 0;
-            const increment = finalValue.includes('€') ? 5000000 : finalValue.includes('K') ? 100 : 50;
-            const maxValue = finalValue.includes('€') ? 50000000 : finalValue.includes('K') ? 25000 : 1000;
+    const iconMessages = [
+        "Starting your journey...",
+        "Discovering travel opportunities...",
+        "Finding funding programs...", 
+        "Exploring education paths...",
+        "Building community connections...",
+        "Ready to explore!"
+    ];
+
+    function animateToNextIcon() {
+        // Remove active class from current icon
+        if (icons[currentIconIndex]) {
+            icons[currentIconIndex].classList.remove('active');
+            icons[currentIconIndex].classList.add('leaving');
+        }
+        
+        // Remove active class from current progress dot
+        if (progressDots[currentIconIndex]) {
+            progressDots[currentIconIndex].classList.remove('active');
+        }
+        
+        // Move to next icon
+        currentIconIndex++;
+        
+        setTimeout(() => {
+            // Remove leaving class from previous icon
+            if (icons[currentIconIndex - 1]) {
+                icons[currentIconIndex - 1].classList.remove('leaving');
+            }
             
-            const counter = setInterval(() => {
-                currentValue += increment;
-                if (currentValue >= maxValue) {
-                    currentValue = maxValue;
-                    clearInterval(counter);
+            // Activate next icon if it exists
+            if (currentIconIndex < icons.length && icons[currentIconIndex]) {
+                icons[currentIconIndex].classList.add('entering');
+                
+                setTimeout(() => {
+                    icons[currentIconIndex].classList.remove('entering');
+                    icons[currentIconIndex].classList.add('active');
+                }, 200);
+                
+                // Update progress dot
+                if (progressDots[currentIconIndex]) {
+                    progressDots[currentIconIndex].classList.add('active');
                 }
                 
-                if (finalValue.includes('€')) {
-                    stat.textContent = `€${(currentValue / 1000000).toFixed(0)}M+`;
-                } else if (finalValue.includes('K')) {
-                    stat.textContent = `${(currentValue / 1000).toFixed(0)}K+`;
-                } else {
-                    stat.textContent = `${currentValue}+`;
+                // Update subtitle message
+                if (loadingSubtitle && iconMessages[currentIconIndex]) {
+                    loadingSubtitle.textContent = iconMessages[currentIconIndex];
                 }
-            }, 50);
-        });
-    };
+            }
+        }, 300);
+    }
+
+    // Start icon animation cycle
+    function startIconAnimation() {
+        // Initial setup
+        if (loadingSubtitle) {
+            loadingSubtitle.textContent = iconMessages[0];
+        }
+        
+        // Animate through icons
+        animationInterval = setInterval(() => {
+            if (currentIconIndex < icons.length - 1) {
+                animateToNextIcon();
+            } else {
+                // Animation complete, stop interval
+                clearInterval(animationInterval);
+                
+                // Final message
+                setTimeout(() => {
+                    if (loadingSubtitle) {
+                        loadingSubtitle.textContent = "Welcome to YouthFund!";
+                    }
+                }, 500);
+            }
+        }, 1200); // Change icon every 1.2 seconds
+    }
+
+    // Start animations after a brief delay
+    setTimeout(startIconAnimation, 800);
     
-    // Start stat animation after a brief delay
-    setTimeout(animateStats, 500);
-    
+    // Hide loading screen after animations complete
     window.addEventListener('load', function() {
         setTimeout(() => {
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
+            
             loadingScreen.classList.add('fade-out');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 document.body.classList.remove('loading', 'no-scroll');
             }, 800);
-        }, 2500); // Show for 2.5 seconds to appreciate the animation
+        }, 6500); // Show loading screen for about 6.5 seconds total
     });
 
     // Smart header scroll animation
@@ -204,5 +239,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('YouthFund website initialized successfully! 🚀');
+    console.log('YouthFund website initialized with transforming opportunities! 🚀✨');
 });
