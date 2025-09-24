@@ -1,38 +1,69 @@
-// Mobile Navigation Toggle
+// Modern YouthFund Website JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Navigation Toggle
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
+    const body = document.body;
 
     // Toggle mobile menu
-    navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-        
-        // Animate hamburger menu
-        const hamburger = document.querySelector('.hamburger');
-        hamburger.classList.toggle('active');
-    });
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Toggle active classes
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            body.classList.toggle('menu-open');
+            
+            console.log('Menu toggled:', navMenu.classList.contains('active'));
+        });
+    }
 
     // Close mobile menu when clicking on links
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            document.querySelector('.hamburger').classList.remove('active');
+            navMenu?.classList.remove('active');
+            navToggle?.classList.remove('active');
+            body.classList.remove('menu-open');
         });
     });
 
-    // Header scroll effect
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('.header');
-        if (window.scrollY > 100) {
-            header.style.background = 'rgba(255, 255, 255, 0.98)';
-            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.boxShadow = 'none';
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navMenu?.classList.contains('active') && 
+            !navToggle?.contains(e.target) && 
+            !navMenu.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle?.classList.remove('active');
+            body.classList.remove('menu-open');
         }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu?.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            navToggle?.classList.remove('active');
+            body.classList.remove('menu-open');
+        }
+    });
+
+    // Header scroll effect
+    let lastScrollTop = 0;
+    const header = document.querySelector('.header');
+    
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            header?.classList.add('scrolled');
+        } else {
+            header?.classList.remove('scrolled');
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
 
     // Smooth scrolling for anchor links
@@ -41,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                const headerHeight = header?.offsetHeight || 75;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
                 
                 window.scrollTo({
                     top: targetPosition,
@@ -54,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Intersection Observer for animations
     const observerOptions = {
-        threshold: 0.1,
+        threshold: 0.15,
         rootMargin: '0px 0px -50px 0px'
     };
 
@@ -63,68 +94,97 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('animated');
             }
         });
     }, observerOptions);
 
     // Observe elements for animations
-    const animatedElements = document.querySelectorAll('.program-card, .feature-item, .resource-card');
+    const animatedElements = document.querySelectorAll('.program-card, .feature-item, .resource-card, .hero-card');
     animatedElements.forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        el.style.transform = 'translateY(50px)';
+        el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         observer.observe(el);
     });
 
-    // Add loading animation to buttons
+    // Staggered animations for cards
+    const cardGroups = {
+        '.hero-card': 0.1,
+        '.program-card': 0.2,
+        '.feature-item': 0.15,
+        '.resource-card': 0.1
+    };
+
+    Object.entries(cardGroups).forEach(([selector, delay]) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((el, index) => {
+            el.style.transitionDelay = `${index * delay}s`;
+        });
+    });
+
+    // Enhanced button interactions
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Only add loading state for actual form submissions or external links
-            if (this.href && !this.href.includes('#')) {
-                this.style.pointerEvents = 'none';
-                this.style.opacity = '0.7';
-                
-                setTimeout(() => {
-                    this.style.pointerEvents = 'auto';
-                    this.style.opacity = '1';
-                }, 2000);
-            }
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
         });
-    });
-
-    // Add hover effects to cards
-    const cards = document.querySelectorAll('.hero-card, .program-card, .feature-item, .resource-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-    });
-
-    // Parallax effect for hero section
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.hero-visual');
-        const speed = 0.1;
         
-        parallaxElements.forEach(element => {
-            const yPos = -(scrolled * speed);
-            element.style.transform = `translateY(${yPos}px)`;
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        button.addEventListener('click', function(e) {
+            // Create ripple effect
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
         });
     });
 
-    // Dynamic copyright year
+    // Parallax effect for hero section (subtle)
+    const heroVisual = document.querySelector('.hero-visual');
+    if (heroVisual) {
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.05;
+            heroVisual.style.transform = `translateY(${rate}px)`;
+        });
+    }
+
+    // Dynamic year in footer
     const currentYear = new Date().getFullYear();
     const copyrightElement = document.querySelector('.footer-bottom p');
     if (copyrightElement) {
-        copyrightElement.innerHTML = copyrightElement.innerHTML.replace('2024', currentYear);
+        copyrightElement.innerHTML = copyrightElement.innerHTML.replace('2025', currentYear);
     }
 
-    // Add focus management for accessibility
+    // Accessibility improvements
     const focusableElements = document.querySelectorAll('a, button, input, textarea, select');
     focusableElements.forEach(element => {
         element.addEventListener('focus', function() {
-            this.style.outline = '2px solid #2563eb';
+            this.style.outline = '3px solid rgba(99, 102, 241, 0.5)';
             this.style.outlineOffset = '2px';
         });
         
@@ -133,28 +193,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add keyboard navigation support
-    document.addEventListener('keydown', function(e) {
-        // ESC key closes mobile menu
-        if (e.key === 'Escape') {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            document.querySelector('.hamburger').classList.remove('active');
-        }
-    });
-
-    // Performance optimization: Debounced scroll handler
+    // Performance optimization for scroll events
     let ticking = false;
     
-    function updateScrollElements() {
+    function updateOnScroll() {
         const scrolled = window.pageYOffset;
         
-        // Update header
-        const header = document.querySelector('.header');
+        // Update header state
         if (scrolled > 100) {
-            header.classList.add('scrolled');
+            header?.classList.add('scrolled');
         } else {
-            header.classList.remove('scrolled');
+            header?.classList.remove('scrolled');
         }
         
         ticking = false;
@@ -162,112 +211,120 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function requestTick() {
         if (!ticking) {
-            requestAnimationFrame(updateScrollElements);
+            requestAnimationFrame(updateOnScroll);
             ticking = true;
         }
     }
 
-    window.addEventListener('scroll', requestTick);
+    // Debounced scroll handler
+    window.addEventListener('scroll', requestTick, { passive: true });
+
+    // Loading state for external links
+    const externalLinks = document.querySelectorAll('a[href^="http"]');
+    externalLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            this.classList.add('loading');
+            this.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                this.classList.remove('loading');
+                this.style.pointerEvents = 'auto';
+            }, 3000);
+        });
+    });
+
+    console.log('YouthFund website initialized successfully! 🚀');
 });
 
-// Add CSS classes for JavaScript interactions
+// Add custom CSS for JavaScript enhancements
 const style = document.createElement('style');
 style.textContent = `
-    /* Mobile menu styles */
-    @media (max-width: 768px) {
-        .nav-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transform: translateY(-100%);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            padding: 1rem 0;
-        }
-        
-        .nav-menu.active {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .nav-menu {
-            flex-direction: column;
-            gap: 0;
-        }
-        
-        .nav-item {
-            padding: 0.75rem 1.5rem;
-        }
-        
-        .nav-link::after {
-            display: none;
-        }
-        
-        /* Hamburger animation */
-        .nav-toggle.active .hamburger {
-            background-color: transparent;
-        }
-        
-        .nav-toggle.active .hamburger::before {
-            transform: translateY(6px) rotate(45deg);
-        }
-        
-        .nav-toggle.active .hamburger::after {
-            transform: translateY(-6px) rotate(-45deg);
-        }
-        
-        .hamburger::before,
-        .hamburger::after {
-            content: '';
-            position: absolute;
-            width: 25px;
-            height: 3px;
-            background-color: #475569;
-            transition: all 0.3s ease;
-        }
-        
-        .hamburger::before {
-            top: -6px;
-        }
-        
-        .hamburger::after {
-            bottom: -6px;
-        }
+    /* Prevent body scroll when menu is open */
+    body.menu-open {
+        overflow: hidden;
     }
-    
-    /* Header scroll effect */
+
+    /* Enhanced header scroll state */
     .header.scrolled {
         background: rgba(255, 255, 255, 0.98) !important;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 4px 30px rgba(99, 102, 241, 0.1) !important;
+        backdrop-filter: blur(20px) !important;
     }
-    
-    /* Loading button state */
+
+    /* Ripple animation for buttons */
+    @keyframes ripple {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+
+    /* Loading state for buttons */
     .btn.loading {
-        pointer-events: none;
-        opacity: 0.7;
         position: relative;
+        color: transparent !important;
     }
-    
+
     .btn.loading::after {
         content: '';
         position: absolute;
-        width: 16px;
-        height: 16px;
-        margin: auto;
-        border: 2px solid transparent;
-        border-top-color: currentColor;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin-left: -10px;
+        margin-top: -10px;
+        border: 2px solid currentColor;
         border-radius: 50%;
+        border-right-color: transparent;
         animation: spin 1s linear infinite;
     }
-    
+
+    .btn-primary.loading::after {
+        border-color: white;
+        border-right-color: transparent;
+    }
+
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    /* Smooth transitions for all interactive elements */
+    .hero-card,
+    .program-card,
+    .feature-item,
+    .resource-card,
+    .social-link {
+        will-change: transform;
+    }
+
+    /* Enhanced focus styles for better accessibility */
+    *:focus-visible {
+        outline: 3px solid rgba(99, 102, 241, 0.5) !important;
+        outline-offset: 2px !important;
+        border-radius: 4px;
+    }
+
+    /* Mobile menu overlay */
+    @media (max-width: 768px) {
+        .nav-menu::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-menu.active::before {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 `;
 document.head.appendChild(style);
